@@ -80,4 +80,20 @@ class ModuleController extends Controller
         $module->delete();
         return redirect()->route('module.index');
     }
+
+    public function show(Module $module)
+{
+    // ... (autres logiques)
+
+    return view('modules.show', compact('module', 'moduleProgress'));
+}
+
+
+public function updateProgress()
+{
+    $moduleId = $request->input('module_id');
+    $coursId = $request->input('cours_id');
+
+    return response()->json(['message' => 'Progression mise à jour avec succès']);
+}
 }

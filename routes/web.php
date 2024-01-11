@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cours/update/{id}',[CourController::class,'update'])->name('cours.update');
     Route::post('/cours/edit',[CourController::class,'edit'])->name('cours.edit');
     Route::get('/cours/delete/{id}',[CourController::class,'delete'])->name('cours.delete');
+    Route::post('/cours/{cours}/mark-completed', [CourController::class, 'markCompleted'])->name('markCourseCompleted');
+
     // ... d'autres routes
 });
 
@@ -68,7 +70,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/modules/update/{id}',[ModuleController::class,'update'])->name('module.update');
     Route::post('/modules/edit',[ModuleController::class,'edit'])->name('module.edit');
     Route::get('/modules/delete/{id}',[ModuleController::class,'delete'])->name('module.delete');
+
     // ... d'autres routes
+});
+
+Route::group(['middleware' => ['web']], function (){
+    Route::post('/update-progress', [ModuleController::class, 'updateProgress'])->name('update-progress');
 });
 
 //stagiaires
@@ -82,9 +89,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/stagiaires/{id}',[StagiaireController::class,'showStagiaire'])->name('stagiaires.showStagiaire');
     Route::get('/stagiaires/update/{id}',[StagiaireController::class,'update'])->name('stagiaires.updateStagiaire');
     Route::post('/stagiaires/edit',[StagiaireController::class,'editStagiaire'])->name('stagiaires.editeStagiaire');
-    Route::get('/stagiaires/delete/{id}',[StagiaireController::class,'deleteStagiaire'])->name('stagiaires.deleteStagiaire');
+
     // ... d'autres routes
 });
+
+
 
 // -----------------------Stagiaires controle connection--------------------------------------------------------
 Route::get('/',[StagiaireController::class,'indexlogin'])->name('stagiaires.login_form');
@@ -92,7 +101,7 @@ Route::post('/loginstagiaire',[StagiaireController::class,'login'])->name('stagi
 
 Route::group(['middleware' => 'stagiaire'],function(){
 Route::get('/dashboardStagiaire',[StagiaireController::class,'dashboard'])->name('stagiaires.dashboard');
-Route::get('/logoutstagiaire',[StagiaireController::class,'logout'])->name('stagiaires.logout');
+Route::get('/logintstagiaire',[StagiaireController::class,'logout'])->name('stagiaires.logout');
 Route::get('/modulestagiaire/{id}',[StagiaireController::class,'module'])->name('stagiaires.modulestagiaire');
 Route::get('/courstagiaire/{id}',[StagiaireController::class,'cours'])->name('stagiaires.courstagiaire');
 Route::post('/storestagiaire',[StagiaireController::class,'store'])->name('stagiaires.store');

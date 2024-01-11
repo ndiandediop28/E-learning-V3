@@ -23,4 +23,5 @@ class Cour extends Model
     public function tacheStagiaire(){
         return $this->hasMany(TacheStagiaire::class);
     }
+      
 }

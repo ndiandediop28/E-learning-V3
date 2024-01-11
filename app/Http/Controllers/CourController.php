@@ -79,4 +79,21 @@ class CourController extends Controller
         $cour->delete();
         return redirect()->route('cours.index');
     }
+
+    // progression
+    public function markCompleted(Cours $cours)
+{
+    $user = auth()->user();
+
+    // Mettez à jour la progression de l'utilisateur pour le cours
+    $progression = Progression::updateOrCreate(
+        ['user_id' => $user->id, 'cours_id' => $cours->id],
+        ['percentage' => 100]
+    );
+
+    // Déclenchez l'événement de cours terminé
+    event(new CoursCompleted($user, $cours));
+
+    return redirect()->back();
+}
 }
